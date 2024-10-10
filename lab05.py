@@ -41,10 +41,14 @@ back_to_menu_button = [screen_width / 2 - 60, screen_height - 50, 140, 45]
 smallfont = pygame.font.SysFont('Gill Sans MT', 60)
 titlefont = pygame.font.SysFont('Euphemia', 120)
 displayfont = pygame.font.SysFont('OCR-A Extended', 120)
+subfont = pygame.font.SysFont('Segoe UI', 50)
 
 text_quit = smallfont.render('Quit', True, color_black)
 text_play = smallfont.render('Play', True, color_black)
-text_title = titlefont.render('Guessing Game', True, color_purple)
+text_title = titlefont.render('Guessing Game', True, color_black)
+text_author = subfont.render('Flood M.L., 31226', True, color_purple)
+title_display_1 = titlefont.render("Guessing", True, color_black)
+title_display_2 = titlefont.render("Game", True, color_black)
 
 quit_button_rect = pygame.draw.rect(screen, color_dark,[quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
 play_button_rect = pygame.draw.rect(screen, color_dark,[play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
@@ -70,17 +74,26 @@ def title_screen(condition):
         quit_button_rect = pygame.draw.rect(screen, color_white, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
         play_button_rect = pygame.draw.rect(screen, color_white, [play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
 
+    pygame.draw.rect(screen, color_black, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]], 5)
+    pygame.draw.rect(screen, color_black, [play_button[0], play_button[1], play_button[2], play_button[3]], 5)
 
     screen.blit(text_title, (screen_width / 2 - 325, screen_height - 700))
+    screen.blit(text_author, (screen_width / 2 - 325, screen_height - 650))
 
     screen.blit(text_quit, (quit_button[0] + 100, quit_button[1] + 10))
     screen.blit(text_play, (play_button[0] + 100, play_button[1] + 10))
+
+
+
+
+
 
 def play_screen(factor):
 
     pygame.draw.circle(screen, color_purple, [difficulty_display[0], difficulty_display[1]], difficulty_display[2])
     pygame.draw.circle(screen, color_black, [difficulty_display[0], difficulty_display[1]], difficulty_display[2], 5)
     pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
+    pygame.draw.rect(screen, color_black, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]], 3)
 
 
     n = random.randint(1, int(math.pow(10, factor)))
@@ -91,8 +104,6 @@ def play_screen(factor):
     print("max guesses = " , maxNumGuesses)
 
     factor_display = displayfont.render(str(factor), True, color_black)
-    title_display_1 = titlefont.render("Guessing", True, color_black)
-    title_display_2 = titlefont.render("Game", True, color_black)
 
     screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
 
