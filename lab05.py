@@ -14,8 +14,8 @@ screen = pygame.display.set_mode(res)
 current_screen = "title"
 
 # palette
-color_purple = (127, 0, 255)
-color_green = (0, 153, 0)
+color_purple = (163, 73, 164)
+color_green = (34, 177, 76)
 color_white = (255, 255, 255)
 color_light = (170, 170, 170)
 color_dark = (100, 100, 100)
@@ -27,19 +27,23 @@ screen_height = screen.get_height()
 # [x coord = 0, y coord = 1, width = 2, height = 3]
 # + = right, down
 # - = left, up
+
+# title screen
 quit_button = [screen_width / 2 - 120, screen_height / 2, 280, 60]
 play_button = [screen_width / 2 - 120, screen_height / 2 - 75, 280, 60]
+
+# play screen
 difficulty_display = [100, 100, 85, 0]
+back_to_menu_button = [screen_width / 2 - 60, screen_height - 50, 140, 45]
+
 
 
 smallfont = pygame.font.SysFont('Gill Sans MT', 60)
 titlefont = pygame.font.SysFont('Euphemia', 120)
 displayfont = pygame.font.SysFont('OCR-A Extended', 120)
 
-
 text_quit = smallfont.render('Quit', True, color_black)
 text_play = smallfont.render('Play', True, color_black)
-
 text_title = titlefont.render('Guessing Game', True, color_purple)
 
 quit_button_rect = pygame.draw.rect(screen, color_dark,[quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
@@ -75,6 +79,8 @@ def title_screen(condition):
 def play_screen(factor):
 
     pygame.draw.circle(screen, color_purple, [difficulty_display[0], difficulty_display[1]], difficulty_display[2])
+    pygame.draw.circle(screen, color_black, [difficulty_display[0], difficulty_display[1]], difficulty_display[2], 5)
+    pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
 
 
     n = random.randint(1, int(math.pow(10, factor)))
@@ -84,8 +90,15 @@ def play_screen(factor):
     print("factor = " , factor)
     print("max guesses = " , maxNumGuesses)
 
-    factor_display = displayfont.render(str(factor), True, color_white)
+    factor_display = displayfont.render(str(factor), True, color_black)
+    title_display_1 = titlefont.render("Guessing", True, color_black)
+    title_display_2 = titlefont.render("Game", True, color_black)
+
     screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
+
+    screen.blit(title_display_1, (difficulty_display[0] + 150, difficulty_display[1] - 75))
+    screen.blit(title_display_2, (difficulty_display[0] + 210, difficulty_display[1] - 0))
+
 
     '''
     guesses = 0
