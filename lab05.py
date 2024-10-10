@@ -17,8 +17,9 @@ current_screen = "title"
 color_purple = (127, 0, 255)
 color_green = (0, 153, 0)
 color_white = (255, 255, 255)
-color_light = (170, 170, 170) # light shade of the button
-color_dark = (100, 100, 100) # dark shade of the button
+color_light = (170, 170, 170)
+color_dark = (100, 100, 100)
+color_black = (0, 0, 0)
 
 screen_width = screen.get_width()
 screen_height = screen.get_height()
@@ -36,8 +37,8 @@ titlefont = pygame.font.SysFont('Euphemia', 120)
 displayfont = pygame.font.SysFont('OCR-A Extended', 120)
 
 
-text_quit = smallfont.render('Quit', True, color_white)
-text_play = smallfont.render('Play', True, color_white)
+text_quit = smallfont.render('Quit', True, color_black)
+text_play = smallfont.render('Play', True, color_black)
 
 text_title = titlefont.render('Guessing Game', True, color_purple)
 
@@ -52,18 +53,18 @@ def title_screen(condition):
 
     if (condition == "hovering_play"):
 
-        quit_button_rect = pygame.draw.rect(screen, color_dark, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])
-        play_button_rect = pygame.draw.rect(screen, color_light, [play_button[0], play_button[1], play_button[2], play_button[3]])
+        quit_button_rect = pygame.draw.rect(screen, color_white, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])
+        play_button_rect = pygame.draw.rect(screen, color_dark, [play_button[0], play_button[1], play_button[2], play_button[3]])
 
     elif (condition == "hovering_quit"):
 
-        quit_button_rect = pygame.draw.rect(screen, color_light, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])
-        play_button_rect = pygame.draw.rect(screen, color_dark, [play_button[0], play_button[1], play_button[2], play_button[3]])
+        quit_button_rect = pygame.draw.rect(screen, color_dark, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])
+        play_button_rect = pygame.draw.rect(screen, color_white, [play_button[0], play_button[1], play_button[2], play_button[3]])
 
     else:
 
-        quit_button_rect = pygame.draw.rect(screen, color_dark, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
-        play_button_rect = pygame.draw.rect(screen, color_dark, [play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
+        quit_button_rect = pygame.draw.rect(screen, color_white, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
+        play_button_rect = pygame.draw.rect(screen, color_white, [play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
 
 
     screen.blit(text_title, (screen_width / 2 - 325, screen_height - 700))
@@ -189,6 +190,13 @@ while True:
 
 
         play_screen(1)
+
+
+
+
+
+
+    pygame.display.update()
 
 
 
