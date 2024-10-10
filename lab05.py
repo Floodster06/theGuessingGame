@@ -1,7 +1,11 @@
 import math
 import random
+from cgitb import small
+
 import pygame
 import sys
+
+from scripts.regsetup import description
 
 # random.randint(0, n)
 # includes 0 and n
@@ -38,17 +42,30 @@ back_to_menu_button = [screen_width / 2 - 60, screen_height - 50, 140, 45]
 
 
 
-smallfont = pygame.font.SysFont('Gill Sans MT', 60)
+buttonfont = pygame.font.SysFont('Gill Sans MT', 60)
 titlefont = pygame.font.SysFont('Euphemia', 120)
 displayfont = pygame.font.SysFont('OCR-A Extended', 120)
 subfont = pygame.font.SysFont('Segoe UI', 50)
+smallfont = pygame.font.SysFont('Verdana', 15)
 
-text_quit = smallfont.render('Quit', True, color_black)
-text_play = smallfont.render('Play', True, color_black)
+text_quit = buttonfont.render('Quit', True, color_black)
+text_play = buttonfont.render('Play', True, color_black)
 text_title = titlefont.render('Guessing Game', True, color_black)
 text_author = subfont.render('Flood M.L., 31226', True, color_purple)
 title_display_1 = titlefont.render("Guessing", True, color_black)
 title_display_2 = titlefont.render("Game", True, color_black)
+
+description_text_L0 = smallfont.render("Welcome to the Guessing Game!", True, color_purple)
+description_text_L1 = smallfont.render("The game challenges you to guess a random number, with difficulty increasing as you succeed.", True, color_purple)
+description_text_L2 = smallfont.render("A random number will be within 1 and a specified upper limit. You need to guess this number.", True, color_purple)
+description_text_L3 = smallfont.render("The game will let you know if your guess is low or high. Guess until you find the number.", True, color_purple)
+description_text_L4 = smallfont.render("If you guess the number in less attempts than a threshold, the upper limit will increase.", True, color_purple)
+description_text_L5 = smallfont.render("If an invalid guess is entered, you will be told. Invalid entries still count as a guess.", True, color_purple)
+description_text_L6 = smallfont.render("Bonne chance, and have fun!", True, color_purple)
+
+extra_info_text = subfont.render("CSE101 |  Dr. Y Liang  | 10/28/24", True, color_black)
+
+
 
 quit_button_rect = pygame.draw.rect(screen, color_dark,[quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
 play_button_rect = pygame.draw.rect(screen, color_dark,[play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
@@ -77,8 +94,25 @@ def title_screen(condition):
     pygame.draw.rect(screen, color_black, [quit_button[0], quit_button[1], quit_button[2], quit_button[3]], 5)
     pygame.draw.rect(screen, color_black, [play_button[0], play_button[1], play_button[2], play_button[3]], 5)
 
+    screen.blit(text_author, (screen_width / 2 - 170, screen_height - 625))
     screen.blit(text_title, (screen_width / 2 - 325, screen_height - 700))
-    screen.blit(text_author, (screen_width / 2 - 325, screen_height - 650))
+
+    screen.blit(description_text_L0, (screen_width / 2 - 100, screen_height - 280))
+    screen.blit(description_text_L1, (screen_width / 2 - 360, screen_height - 240))
+    screen.blit(description_text_L2, (screen_width / 2 - 350, screen_height - 220))
+    screen.blit(description_text_L3, (screen_width / 2 - 335, screen_height - 200))
+    screen.blit(description_text_L4, (screen_width / 2 - 330, screen_height - 180))
+    screen.blit(description_text_L5, (screen_width / 2 - 315, screen_height - 160))
+    screen.blit(description_text_L6, (screen_width / 2 - 85, screen_height - 120))
+
+    screen.blit(extra_info_text, (screen_width / 2 - 320, screen_height - 70))
+
+
+
+
+
+
+
 
     screen.blit(text_quit, (quit_button[0] + 100, quit_button[1] + 10))
     screen.blit(text_play, (play_button[0] + 100, play_button[1] + 10))
