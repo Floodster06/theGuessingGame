@@ -85,7 +85,7 @@ def play_screen(factor):
     print("max guesses = " , maxNumGuesses)
 
     factor_display = displayfont.render(str(factor), True, color_white)
-    screen.blit(factor_display, (difficulty_display[0] - 30, difficulty_display[1] - 65))
+    screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
 
     '''
     guesses = 0
