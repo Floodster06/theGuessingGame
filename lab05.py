@@ -68,7 +68,6 @@ title_display_1 = titlefont.render("Guessing", True, color_black)
 title_display_2 = titlefont.render("Game", True, color_black)
 
 factor_display = displayfont.render(str(current_factor), True, color_black)
-user_input_text = subfont.render(user_text, True, color_black)
 
 description_text_L0 = smallfont.render("Welcome to the Guessing Game!", True, color_purple)
 description_text_L1 = smallfont.render("The game challenges you to guess a random number, with difficulty increasing as you succeed.", True, color_purple)
@@ -156,7 +155,8 @@ def play_screen(condition):
 
     winner_text = subfont.render("Winner! You got it in " + str(current_guesses) + " guesses!", True, color_purple)
 
-    screen.blit(user_input_text, (input_box[0] + 50, input_box[1] + 15))
+    user_input_text = subfont.render(user_text, True, color_black)
+    screen.blit(user_input_text, (input_box[0] + 25, input_box[1] + 15))
     screen.blit(guess_input_box_label_text, (input_box[0] + 160, input_box[1] - 40))
 
 
