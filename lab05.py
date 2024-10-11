@@ -16,6 +16,7 @@ res = (720, 720)
 screen = pygame.display.set_mode(res)
 
 current_screen = "title"
+current_factor = 1
 
 # palette
 color_purple = (163, 73, 164)
@@ -24,6 +25,8 @@ color_white = (255, 255, 255)
 color_light = (170, 170, 170)
 color_dark = (100, 100, 100)
 color_black = (0, 0, 0)
+color_red = (255, 98, 34)
+
 
 screen_width = screen.get_width()
 screen_height = screen.get_height()
@@ -54,6 +57,7 @@ text_title = titlefont.render('Guessing Game', True, color_black)
 text_author = subfont.render('Flood M.L., 31226', True, color_purple)
 title_display_1 = titlefont.render("Guessing", True, color_black)
 title_display_2 = titlefont.render("Game", True, color_black)
+factor_display = displayfont.render(str(current_factor), True, color_black)
 
 description_text_L0 = smallfont.render("Welcome to the Guessing Game!", True, color_purple)
 description_text_L1 = smallfont.render("The game challenges you to guess a random number, with difficulty increasing as you succeed.", True, color_purple)
@@ -69,6 +73,8 @@ extra_info_text = subfont.render("CSE101 |  Dr. Y Liang  | 10/28/24", True, colo
 
 quit_button_rect = pygame.draw.rect(screen, color_dark,[quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
 play_button_rect = pygame.draw.rect(screen, color_dark,[play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
+back_to_menu_button_rect = pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
+
 
 def title_screen(condition):
 
@@ -122,12 +128,12 @@ def title_screen(condition):
 
 
 
-def play_screen(factor):
+def play_screen(factor, condition):
+
+    global back_to_menu_button_rect
 
     pygame.draw.circle(screen, color_purple, [difficulty_display[0], difficulty_display[1]], difficulty_display[2])
     pygame.draw.circle(screen, color_black, [difficulty_display[0], difficulty_display[1]], difficulty_display[2], 5)
-    pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
-    pygame.draw.rect(screen, color_black, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]], 3)
 
 
     n = random.randint(1, int(math.pow(10, factor)))
@@ -137,7 +143,15 @@ def play_screen(factor):
     print("factor = " , factor)
     print("max guesses = " , maxNumGuesses)
 
-    factor_display = displayfont.render(str(factor), True, color_black)
+    if (condition == "hovering_back_to_menu"):
+
+        pygame.draw.rect(screen, color_red, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
+        pygame.draw.rect(screen, color_black, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]], 3)
+    else:
+        pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
+        pygame.draw.rect(screen, color_black, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]], 3)
+
+
 
     screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
 
@@ -159,12 +173,12 @@ def play_screen(factor):
             print("You won in " + str(guesses) + " guesses!")
 
             if guesses < maxNumGuesses:
-                factor += 1
+                current_factor += 1
 
             play_again = input("Would you like to play again? (y/n)")
             if (play_again == "y"):
 
-                play_screen(factor)
+                play_screen(current_factor, "default")
             elif (play_again == "n"):
 
                 playing = False
@@ -198,11 +212,21 @@ def play_button_function():
 
     current_screen = "play"
 
+def back_to_menu_function():
+
+    global current_factor
+    global current_screen
+
+    current_screen == "title"
+    title_screen("default")
+    current_factor = 1
+
 # [x coord = 0, y coord = 1, width = 2, height = 3]
 # + = right, down
 # - = left, up
 
 # main loop
+
 while True:
 
     for ev in pygame.event.get():
@@ -216,12 +240,18 @@ while True:
 
             # if the mouse is clicked on the
             # button the game is terminated
-            if quit_button_rect.left <= mouse[0] <= quit_button_rect.right and quit_button_rect.top <= mouse[1] <= quit_button_rect.bottom:
+            if quit_button_rect.left <= mouse[0] <= quit_button_rect.right and quit_button_rect.top <= mouse[1] <= quit_button_rect.bottom and current_screen == "title":
 
                 quit_button_function()
             elif play_button_rect.left <= mouse[0] <= play_button_rect.right and play_button_rect.top <= mouse[1] <= play_button_rect.bottom:
 
                 play_button_function()
+            elif back_to_menu_button_rect.left <= mouse[0] <= back_to_menu_button_rect.right and back_to_menu_button_rect.top <= mouse[1] <= back_to_menu_button_rect.bottom and current_screen == "play":
+
+                back_to_menu_function()
+
+
+
 
 
     screen.fill(color_green)
@@ -244,10 +274,18 @@ while True:
 
     elif (current_screen == "play"):
 
+        if back_to_menu_button_rect.left <= mouse[0] <= back_to_menu_button_rect.right and back_to_menu_button_rect.top <= mouse[1] <= back_to_menu_button_rect.bottom:
+
+            play_screen(current_factor, "hovering_back_to_menu")
+        else:
+
+            play_screen(current_factor, "default")
 
 
 
-        play_screen(1)
+
+
+
 
 
 
