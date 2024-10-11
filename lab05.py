@@ -160,6 +160,7 @@ def play_screen(condition):
     screen.blit(guess_input_box_label_text, (input_box[0] + 160, input_box[1] - 40))
 
 
+
     if condition == "hovering_back_to_menu":
 
         pygame.draw.rect(screen, color_red, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
