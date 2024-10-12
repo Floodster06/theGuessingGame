@@ -157,9 +157,6 @@ def play_screen(condition):
     pygame.draw.rect(screen, color_purple, [remaining_guesses_box[0], remaining_guesses_box[1], remaining_guesses_box[2], remaining_guesses_box[3]])
     pygame.draw.rect(screen, color_black, [remaining_guesses_box[0], remaining_guesses_box[1], remaining_guesses_box[2], remaining_guesses_box[3]], 5)
 
-
-    winner_text = subfont.render("Winner! You got it in " + str(current_guesses) + " guesses!", True, color_purple)
-
     user_input_text = subfont.render(user_text, True, color_black)
     screen.blit(user_input_text, (input_box[0] + 25, input_box[1] + 15))
     screen.blit(guess_input_box_label_text, (input_box[0] + 160, input_box[1] - 40))
