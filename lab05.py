@@ -1,8 +1,9 @@
 import math
 import random
+import time
 
 import pygame
-import sys
+
 
 # random.randint(0, n)
 # includes 0 and n
@@ -84,6 +85,9 @@ quit_button_rect = pygame.draw.rect(screen, color_dark,[quit_button[0], quit_but
 play_button_rect = pygame.draw.rect(screen, color_dark,[play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
 back_to_menu_button_rect = pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
 input_box_rect = pygame.draw.rect(screen, color_white, [input_box[0], input_box[1], input_box[2], input_box[3]])
+
+winning_sound = pygame.mixer.Sound('winning_sound.mp3')
+
 
 def title_screen(condition):
 
@@ -172,7 +176,10 @@ def play_screen(condition):
 
     if condition == "win":
 
-        screen.blit(winner_text, (screen_width / 2, screen_height / 2))
+        winning_sound.play()
+        time.sleep(0.5)
+        winning_sound.stop()
+
 
 
 
