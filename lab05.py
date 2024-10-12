@@ -16,7 +16,6 @@ screen = pygame.display.set_mode(res)
 current_screen = "title"
 current_factor = 1
 user_text = ""
-input_active = False
 
 previous_guesses = ["", ""]
 
@@ -52,6 +51,8 @@ difficulty_display = [100, 100, 85, 0]
 back_to_menu_button = [screen_width / 2 - 60, screen_height - 50, 140, 45]
 input_box = [screen_width / 2 - 220, screen_height / 2, 450, 90]
 remaining_guesses_box = [input_box[0] + 475, screen_height / 2, 90, 90]
+last_guess_box = [input_box[0] + 30, input_box[1] + 115, 395, 80]
+second_last_guess_box = [last_guess_box[0], last_guess_box[1] + 90, last_guess_box[2], last_guess_box[3]]
 
 
 
@@ -84,7 +85,6 @@ guess_input_box_label_text = buttonfont.render('GUESS:', True, color_black)
 quit_button_rect = pygame.draw.rect(screen, color_dark,[quit_button[0], quit_button[1], quit_button[2], quit_button[3]])  # quit button
 play_button_rect = pygame.draw.rect(screen, color_dark,[play_button[0], play_button[1], play_button[2], play_button[3]])  # play button
 back_to_menu_button_rect = pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]])
-input_box_rect = pygame.draw.rect(screen, color_white, [input_box[0], input_box[1], input_box[2], input_box[3]])
 
 winning_sound = pygame.mixer.Sound('winning_sound.mp3')
 
@@ -157,6 +157,13 @@ def play_screen(condition):
     pygame.draw.rect(screen, color_purple, [remaining_guesses_box[0], remaining_guesses_box[1], remaining_guesses_box[2], remaining_guesses_box[3]])
     pygame.draw.rect(screen, color_black, [remaining_guesses_box[0], remaining_guesses_box[1], remaining_guesses_box[2], remaining_guesses_box[3]], 5)
 
+    pygame.draw.rect(screen, color_white, [last_guess_box[0], last_guess_box[1], last_guess_box[2], last_guess_box[3]])
+    pygame.draw.rect(screen, color_black, [last_guess_box[0], last_guess_box[1], last_guess_box[2], last_guess_box[3]], 3)
+
+    pygame.draw.rect(screen, color_white, [second_last_guess_box[0], second_last_guess_box[1], second_last_guess_box[2], second_last_guess_box[3]])
+    pygame.draw.rect(screen, color_black, [second_last_guess_box[0], second_last_guess_box[1], second_last_guess_box[2], second_last_guess_box[3]], 3)
+
+
     user_input_text = subfont.render(user_text, True, color_black)
     screen.blit(user_input_text, (input_box[0] + 25, input_box[1] + 15))
     screen.blit(guess_input_box_label_text, (input_box[0] + 160, input_box[1] - 40))
@@ -209,14 +216,25 @@ def new_numbers():
     maxNumGuesses = int(math.log(n) / math.log(10)) * 3 + 2
 
 
-
-
 def game():
 
     global current_factor
     global current_guesses
     global user_text
     global remaining_guesses
+    global previous_guesses
+
+    if current_guesses == 0:
+
+        previous_guesses[0] = user_text
+    else:
+
+        previous_guesses[1] = previous_guesses[0]
+        previous_guesses[0] = user_text
+
+
+
+
 
     current_guesses += 1
 
@@ -237,6 +255,7 @@ def game():
         
         new_numbers()
         current_guesses = 0
+        previous_guesses = ["", ""]
 
 
     elif int(user_text) > n:
@@ -280,6 +299,10 @@ def user_guess():
     if not user_text.isnumeric():
 
         user_text = "Non-numeric input."
+        current_guesses += 1
+    elif int(user_text) > math.pow(10, current_factor) or int(user_text) < 1:
+
+        user_text = "Out of range."
         current_guesses += 1
     else:
 
