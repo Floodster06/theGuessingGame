@@ -68,6 +68,7 @@ title_display_1 = titlefont.render("Guessing", True, color_black)
 title_display_2 = titlefont.render("Game", True, color_black)
 
 factor_display = displayfont.render(str(current_factor), True, color_black)
+remaining_guesses_display = displayfont.render(str(remaining_guesses), True, color_black)
 
 description_text_L0 = smallfont.render("Welcome to the Guessing Game!", True, color_purple)
 description_text_L1 = smallfont.render("The game challenges you to guess a random number, with difficulty increasing as you succeed.", True, color_purple)
@@ -178,14 +179,26 @@ def play_screen(condition):
 
 
     screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
+    screen.blit(remaining_guesses_display, (remaining_guesses_box[0] + 25, remaining_guesses_box[1] + 5))
 
     screen.blit(title_display_1, (difficulty_display[0] + 150, difficulty_display[1] - 75))
     screen.blit(title_display_2, (difficulty_display[0] + 210, difficulty_display[1] - 0))
 
+    screen.blit(text_quit, (back_to_menu_button[0] + 25, back_to_menu_button[1] + 5))
 
 
 
 
+
+
+
+def new_numbers():
+
+    global n
+    global maxNumGuesses
+
+    n = random.randint(1, int(math.pow(10, current_factor)))
+    maxNumGuesses = int(math.log(n) / math.log(10)) * 3 + 2
 
 
 
@@ -197,8 +210,6 @@ def game():
     global user_text
     global remaining_guesses
 
-    n = random.randint(1, int(math.pow(10, current_factor)))
-    maxNumGuesses = int(math.log(n) / math.log(10)) * 3 + 2
 
     print("n = " , n)
     print("factor = " , current_factor)
@@ -209,22 +220,26 @@ def game():
     remaining_guesses = maxNumGuesses - current_guesses
 
 
-    if user_text == n:
+    if int(user_text) == n:
 
         play_screen("win")
+        print("win")
 
         if current_guesses < maxNumGuesses:
 
             current_factor += 1
+            new_numbers()
 
-    elif current_guesses > n:
+    elif int(user_text) > n:
 
         play_screen("high")
+        print("high")
 
 
-    elif current_guesses < n:
+    elif int(user_text) < n:
 
         play_screen("low")
+        print("low")
 
     user_text = ""
 
@@ -251,14 +266,15 @@ def back_to_menu_function():
 def user_guess():
 
     global user_text
+    global current_guesses
 
     if not user_text.isnumeric():
 
         user_text = "Non-numeric input."
-        # guess + 1
+        current_guesses += 1
     else:
 
-        print("Guess entered :)")
+        game()
 
 
 
@@ -289,6 +305,7 @@ while True:
                 quit_button_function()
             elif play_button_rect.left <= mouse[0] <= play_button_rect.right and play_button_rect.top <= mouse[1] <= play_button_rect.bottom and current_screen == "title":
 
+                new_numbers()
                 play_button_function()
             elif back_to_menu_button_rect.left <= mouse[0] <= back_to_menu_button_rect.right and back_to_menu_button_rect.top <= mouse[1] <= back_to_menu_button_rect.bottom and current_screen == "play":
 
