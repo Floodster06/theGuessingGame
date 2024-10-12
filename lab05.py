@@ -18,6 +18,7 @@ current_factor = 1
 user_text = ""
 
 previous_guesses = ["", ""]
+previous_values = ["", ""]
 
 current_guesses = 0
 remaining_guesses = 0
@@ -31,7 +32,6 @@ color_light = (170, 170, 170)
 color_dark = (100, 100, 100)
 color_black = (0, 0, 0)
 color_red = (255, 98, 34)
-color_active = (64, 226, 255)
 
 input_box_color = color_white
 
@@ -168,6 +168,21 @@ def play_screen(condition):
     screen.blit(user_input_text, (input_box[0] + 25, input_box[1] + 15))
     screen.blit(guess_input_box_label_text, (input_box[0] + 160, input_box[1] - 40))
 
+    match previous_values[0]:
+        case "low":
+
+            # draw down arrow next to last_guess_box
+        case "high":
+
+            # draw up arrow next to last_guess_box
+        case _:
+
+            # draw dash next to last_guess_box
+
+
+
+
+
 
 
     if condition == "hovering_back_to_menu":
@@ -199,6 +214,15 @@ def play_screen(condition):
 
     screen.blit(text_quit, (back_to_menu_button[0] + 25, back_to_menu_button[1] + 5))
 
+    last_guess_text = subfont.render(previous_guesses[0], True, color_black)
+    second_last_guess_text = subfont.render(previous_guesses[1], True, color_black)
+    screen.blit(last_guess_text, (last_guess_box[0] + 5, last_guess_box[1]))
+    screen.blit(second_last_guess_text, (second_last_guess_box[0] + 5, second_last_guess_box[1]))
+
+
+
+
+
 
 
 
@@ -223,14 +247,17 @@ def game():
     global user_text
     global remaining_guesses
     global previous_guesses
+    global previous_values
 
     if current_guesses == 0:
 
         previous_guesses[0] = user_text
     else:
 
+        previous_values[1] = previous_values[0]
         previous_guesses[1] = previous_guesses[0]
         previous_guesses[0] = user_text
+
 
 
 
@@ -260,12 +287,15 @@ def game():
 
     elif int(user_text) > n:
 
+        previous_values[0] = "high"
         play_screen("high")
         print("high")
 
 
+
     elif int(user_text) < n:
 
+        previous_values[0] = "low"
         play_screen("low")
         print("low")
 
