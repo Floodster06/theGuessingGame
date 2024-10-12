@@ -67,9 +67,6 @@ text_author = subfont.render('Flood M.L., 31226', True, color_purple)
 title_display_1 = titlefont.render("Guessing", True, color_black)
 title_display_2 = titlefont.render("Game", True, color_black)
 
-factor_display = displayfont.render(str(current_factor), True, color_black)
-remaining_guesses_display = displayfont.render(str(remaining_guesses), True, color_black)
-
 description_text_L0 = smallfont.render("Welcome to the Guessing Game!", True, color_purple)
 description_text_L1 = smallfont.render("The game challenges you to guess a random number, with difficulty increasing as you succeed.", True, color_purple)
 description_text_L2 = smallfont.render("A random number will be within 1 and a specified upper limit. You need to guess this number.", True, color_purple)
@@ -141,6 +138,9 @@ def play_screen(condition):
     global back_to_menu_button_rect
     global input_box_color
     global current_factor
+    global remaining_guesses
+
+    remaining_guesses = maxNumGuesses - current_guesses
 
 
 
@@ -178,6 +178,8 @@ def play_screen(condition):
 
 
 
+    factor_display = displayfont.render(str(current_factor), True, color_black)
+    remaining_guesses_display = displayfont.render(str(remaining_guesses), True, color_black)
     screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
     screen.blit(remaining_guesses_display, (remaining_guesses_box[0] + 25, remaining_guesses_box[1] + 5))
 
@@ -196,7 +198,9 @@ def new_numbers():
 
     global n
     global maxNumGuesses
+    global current_guesses
 
+    current_guesses = 0
     n = random.randint(1, int(math.pow(10, current_factor)))
     maxNumGuesses = int(math.log(n) / math.log(10)) * 3 + 2
 
@@ -210,14 +214,12 @@ def game():
     global user_text
     global remaining_guesses
 
+    current_guesses += 1
 
     print("n = " , n)
     print("factor = " , current_factor)
     print("max guesses = " , maxNumGuesses)
-
-    current_guesses += 1
-
-    remaining_guesses = maxNumGuesses - current_guesses
+    print("current guesses = ", current_guesses)
 
 
     if int(user_text) == n:
@@ -228,7 +230,10 @@ def game():
         if current_guesses < maxNumGuesses:
 
             current_factor += 1
-            new_numbers()
+        
+        new_numbers()
+        current_guesses = 0
+
 
     elif int(user_text) > n:
 
