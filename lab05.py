@@ -12,7 +12,8 @@ As an added bonus, the entire program will be run in a graphical user interface 
 """
 import math # used for advanced calculations, like logarithms and powers
 import random # used for random number generation
-import sys
+import sys # used for getting access to objects maintained by the interpreter
+import os # used for more modularity between systems
 import time # used for delays
 
 import pygame # used for GUI
@@ -90,11 +91,21 @@ quit_button_rect = pygame.draw.rect(screen, color_white,[quit_button[0], quit_bu
 play_button_rect = pygame.draw.rect(screen, color_white,[play_button[0], play_button[1], play_button[2], play_button[3]]) # play button (title screen)
 back_to_menu_button_rect = pygame.draw.rect(screen, color_white, [back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]]) # quit to menu button (play screen)
 
+# function for getting absolute paths to resources on any machine
+def resource_path(relative_path):
+
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 # defining other types of required elements for the game
-winning_sound = pygame.mixer.Sound('winning_sound.mp3') # sound for when you guess n correctly
-too_high_arrow = pygame.image.load("up-arrow.png").convert() # too high symbol
-too_low_arrow = pygame.image.load("down_arrow.png").convert() # too low symbol
-default_dash = pygame.image.load("dash.png").convert() # default symbol
+default_dash = pygame.image.load(resource_path('dash.png')) # default symbol
+too_low_arrow = pygame.image.load(resource_path('down_arrow.png')) # too low symbol
+too_high_arrow = pygame.image.load(resource_path('up-arrow.png')) # too high symbol
+winning_sound = pygame.mixer.Sound(resource_path('winning_sound.mp3')) # sound for when you guess n correctly
 
 # displays the title screen, depending on given condition
 def title_screen(condition):
