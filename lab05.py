@@ -88,6 +88,10 @@ back_to_menu_button_rect = pygame.draw.rect(screen, color_white, [back_to_menu_b
 
 winning_sound = pygame.mixer.Sound('winning_sound.mp3')
 
+too_high_arrow = pygame.image.load("up-arrow.png").convert()
+too_low_arrow = pygame.image.load("down_arrow.png").convert()
+default_dash = pygame.image.load("dash.png").convert()
+
 
 def title_screen(condition):
 
@@ -171,13 +175,24 @@ def play_screen(condition):
     match previous_values[0]:
         case "low":
 
-            # draw down arrow next to last_guess_box
+            screen.blit(too_low_arrow, (last_guess_box[0] + 400, last_guess_box[1]))
         case "high":
 
-            # draw up arrow next to last_guess_box
+            screen.blit(too_high_arrow, (last_guess_box[0] + 400, last_guess_box[1]))
         case _:
 
-            # draw dash next to last_guess_box
+            screen.blit(default_dash, (last_guess_box[0] + 400, last_guess_box[1]))
+
+    match previous_values[1]:
+        case "low":
+
+            screen.blit(too_low_arrow, (second_last_guess_box[0] + 400, second_last_guess_box[1]))
+        case "high":
+
+            screen.blit(too_high_arrow, (second_last_guess_box[0] + 400, second_last_guess_box[1]))
+        case _:
+
+            screen.blit(default_dash, (second_last_guess_box[0] + 400, second_last_guess_box[1]))
 
 
 
@@ -205,7 +220,7 @@ def play_screen(condition):
 
 
     factor_display = displayfont.render(str(current_factor), True, color_black)
-    remaining_guesses_display = displayfont.render(str(remaining_guesses), True, color_black)
+    remaining_guesses_display = displayfont.render(str(current_guesses), True, color_black)
     screen.blit(factor_display, (difficulty_display[0] - 25, difficulty_display[1] - 45))
     screen.blit(remaining_guesses_display, (remaining_guesses_box[0] + 25, remaining_guesses_box[1] + 5))
 
@@ -266,15 +281,11 @@ def game():
     current_guesses += 1
 
     print("n = " , n)
-    print("factor = " , current_factor)
-    print("max guesses = " , maxNumGuesses)
-    print("current guesses = ", current_guesses)
 
 
     if int(user_text) == n:
 
         play_screen("win")
-        print("win")
 
         if current_guesses < maxNumGuesses:
 
@@ -283,13 +294,13 @@ def game():
         new_numbers()
         current_guesses = 0
         previous_guesses = ["", ""]
+        previous_values = ["", ""]
 
 
     elif int(user_text) > n:
 
         previous_values[0] = "high"
         play_screen("high")
-        print("high")
 
 
 
@@ -297,7 +308,6 @@ def game():
 
         previous_values[0] = "low"
         play_screen("low")
-        print("low")
 
     user_text = ""
 
