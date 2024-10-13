@@ -4,7 +4,7 @@ Royal Military College of Canada
 CSE101
 Dr. Yawei Liang
 OCdt Flood 31226
-October 12, 2024
+October 13, 2024
 
 The goal of this lab is to allow the user to guess a randomly generated number, n, and if successfully guessed within a certain threshold, increase the upper limit of the random number for the next round.
 The program will allow the user to input a guess, and inform the user if the guess is too high (up arrow) or too low (down arrow).
@@ -198,10 +198,11 @@ def play_screen(condition):
 
     pygame.draw.rect(screen, color_black,[back_to_menu_button[0], back_to_menu_button[1], back_to_menu_button[2], back_to_menu_button[3]],3) # draw the border around the quit button
 
+
     if condition == "win": # if the user guesses n correctly
 
         winning_sound.play() # play victory sound
-        time.sleep(0.5) # pause game for 0.5 seconds to allow sound to play
+        time.sleep(0.75) # pause game for 0.5 seconds to allow sound to play
         winning_sound.stop() # stop victory sound
 
 
@@ -390,3 +391,6 @@ while True: # will always run as long as program isnt quit
             play_screen("default") # run play screen with the 'default' condition
 
     pygame.display.update() # update the GUI display
+
+# A sample output is not possible within the code for the program due to everything being done within a GUI.
+# A PDF will be uploaded alongside the program executable and code with sample output screenshots.
